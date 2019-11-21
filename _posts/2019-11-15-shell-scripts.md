@@ -1,5 +1,5 @@
 ---
-layout: post
+type: article
 title:  "shell 命令小结"
 categories: Linux
 tags:  Linux 

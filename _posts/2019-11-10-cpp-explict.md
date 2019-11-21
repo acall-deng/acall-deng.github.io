@@ -1,5 +1,5 @@
 ---
-layout: post
+type: article
 title:  "C++ explicit关键字使用"
 categories: C++
 tags:  C++  

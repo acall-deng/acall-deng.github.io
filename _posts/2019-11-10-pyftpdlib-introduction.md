@@ -1,5 +1,5 @@
 ---
-layout: post
+type: article
 title:  "pyftpdlib 基本功能简介"
 categories: Python
 tags:  Python  

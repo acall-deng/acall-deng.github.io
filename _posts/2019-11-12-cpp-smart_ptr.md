@@ -1,5 +1,5 @@
 ---
-layout: post
+type: article
 title:  "C++ 11 智能指针"
 categories: C++
 tags:  C++  

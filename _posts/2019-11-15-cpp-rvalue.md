@@ -1,5 +1,5 @@
 ---
-layout: post
+type: article
 title:  "C++ 右值引用"
 categories: C++
 tags:  C++ 

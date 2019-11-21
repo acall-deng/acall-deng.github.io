@@ -1,5 +1,5 @@
 ---
-layout: post
+type: article
 title:  "C++ 随笔"
 categories: C++
 tags:  C++  
