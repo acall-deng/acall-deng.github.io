@@ -11,7 +11,7 @@ author: DengYuting
 # 简介  
 线性代数本质理解为坐标的变换。
 
-
+<!--more-->
 
 
 
