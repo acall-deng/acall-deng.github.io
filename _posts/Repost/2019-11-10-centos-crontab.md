@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "CentOS7定时任务详解"
 categories: linux
 tags:  linux  
@@ -19,7 +18,7 @@ author: SnakeSon
 第5列标识号星期0～6（0表示星期天）  
 第6列要运行的命令  
 
-
+<!--more-->
 
 
 ## 注明
