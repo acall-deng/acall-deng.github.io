@@ -1,7 +1,7 @@
 ---
 title:  "CentOS7定时任务详解"
-categories: linux
-tags:  linux  
+categories: Linux
+tags:  Linux  
 author: SnakeSon
 ---
 
