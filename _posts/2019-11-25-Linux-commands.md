@@ -129,3 +129,4 @@ int main(int argc, char *argv[])
 2. <a href="https://unix.stackexchange.com/questions/275501/gnu-sort-compress-program-compressing-only-first-temporary">GNU sort --compress-program compressing only first temporary -StackOverFlow, 使用sort --compress-program的样例</a>
 3. <a href="https://blog.csdn.net/oDaiLiDong/article/details/50561257">linux下nproc的作用 -CSDN</a>
 4. <a href="https://blog.csdn.net/Linux_ever/article/details/50295105">多进程编程函数posix_spawn实例 -CSDN</a>
+5. <a href="https://man.linuxde.net/sort">sort命令 -k参数高级用法的出处</a>
