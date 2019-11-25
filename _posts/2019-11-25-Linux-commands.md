@@ -15,7 +15,7 @@ author: DengYuting
 
 ## 参数说明
 
-常用命令：  
+### 常用命令：  
 -   -n 依照数值的大小排序。  
 -   -g 依照数值的大小排序，支持浮点数，但是有性能缺陷。
 -   -t <分隔字符> 指定排序时所用的栏位分隔字符。  
@@ -33,7 +33,7 @@ author: DengYuting
 -   -T 指定排序临时文件的生成位置，默认是/var/tmp目录
 -   -S 指定用于进行排序的内存大小，默认最高占用可用内存的90%，单位可以用G,M等
 
-特殊方法：  
+### 特殊方法：  
 -  -V 排序版本号，
 > 一般的文件名`sort-1.024.003.tgz`都可以识别出1.024.003的版本号来  
 -  --batch-size=num，指定最多一次处理的文件数，默认是16  
@@ -43,13 +43,13 @@ author: DengYuting
 -  -M 将前面3个字母依照月份的缩写进行排序。 
 -  --parallel=n 使用n个线程并行排序，默认为处理可用核心数（最多为8）。内存增长规律：Note also that using n threads increases the memory usage by a factor of log n. Also see nproc invocation.
 
-指定排序方式：  
+### 指定排序方式：  
 - --radixsort,如果排序规范允许，请尝试使用基数排序。基数排序只能用于普通语言环境（C和POSIX），而不能用于数字或月份排序。 基数排序非常快速且稳定。[暂不明白普通语言环境指的是什么？]
 - --mergesort，使用归并排序  
 - --qsort，使用快速排序，不能用在-u和-s参数上
 - --heapsort，使用堆排序，不能用在-u和-s参数上
 
-没有理解的几个参数：  
+### 没有理解的几个参数：  
 -  --compress-program=RPOGRAM，后接标准输入输出的程序，用于数据压缩
 -  --random-source=filename，原话：In random sort, the file content is used as the source of the 'seed'
 data for the hash function choice.  Two invocations of random sort with the same seed data will use the same hash function and will produce the same result if the input is also identical.  By default, file /dev/random is used.
@@ -57,7 +57,9 @@ data for the hash function choice.  Two invocations of random sort with the same
 -  -h, 原话：Sort by numerical value, but take into account the SI suffix, if present.  Sort first by numeric sign (negative, zero, or positive); then by SI suffix (either empty, or `k' or `K', or one of `MGTPEZY', in that order); and finally by numeric value.  The SI suffix must immediately follow the number. For example, '12345K' sorts before '1M', because M is "larger" than K.  This sort option is useful for sorting the output of a single invocation of 'df' command with -h or -H options (human-readable).
 
 # WC命令
-利用wc指令我们可以计算文件的Byte数、字数、或是列数，若不指定文件名称、或是所给予的文件名为"-"，则wc指令会从标准输入设备读取数据。  
+利用wc指令我们可以计算文件的Byte数、字数、或是列数，若不指定文件名称、或是所给予的文件名为"-"，则wc指令会从标准输入设备读取数据。
+
+## 常用命令
 - -c或--bytes或--chars 只显示Bytes数。  
 - -l或--lines 只显示行数。  
 - -w或--words 只显示字数。  
