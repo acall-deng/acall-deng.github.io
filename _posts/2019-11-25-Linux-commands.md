@@ -56,6 +56,24 @@ data for the hash function choice.  Two invocations of random sort with the same
 -  --mmap，原话：Try to use file memory mapping system call.  It may increase speed in some cases.
 -  -h, 原话：Sort by numerical value, but take into account the SI suffix, if present.  Sort first by numeric sign (negative, zero, or positive); then by SI suffix (either empty, or `k' or `K', or one of `MGTPEZY', in that order); and finally by numeric value.  The SI suffix must immediately follow the number. For example, '12345K' sorts before '1M', because M is "larger" than K.  This sort option is useful for sorting the output of a single invocation of 'df' command with -h or -H options (human-readable).
 
+## 高级可装逼用法(-k选项)
+
+```shell
+$ sort -t ' ' -k 1.2,1.2 -nrk 3,3 facebook.txt
+baidu 100 5000
+google 110 5000
+sohu 100 4500
+guge 50 3000
+```  
+1.2,1.2表明只对第一个域的第二个字母进行排序。（如果使用-k 1.2，则因为你省略了End部分，意味着你将对从第二个字母起到本域最后一个字符为止的字符串进行排序）。对于员工工资进行排序，我们也使用了-k 3,3，这是最准确的表述，表示我们“只”对本域进行排序，因为如果你省略了后面的3，就变成了我们“对第3个域开始到最后一个域位置的内容进行排序” 了。
+
+```shell
+FStart.CStart Modifie,FEnd.CEnd Modifier
+-------Start--------,-------End--------
+ FStart.CStart 选项  ,  FEnd.CEnd 选项
+```
+总的来说，这个语法格式可以被其中的逗号,分为两大部分，Start部分和End部分。Start部分也由三部分组成，其中的Modifier部分就是我们之前说过的类似n和r的选项部分。我们重点说说Start部分的FStart和C.Start。C.Start也是可以省略的，省略的话就表示从本域的开头部分开始。FStart.CStart，其中FStart就是表示使用的域，而CStart则表示在FStart域中从第几个字符开始算“排序首字符”。同理，在End部分中，你可以设定FEnd.CEnd，如果你省略.CEnd，则表示结尾到“域尾”，即本域的最后一个字符。或者，如果你将CEnd设定为0(零)，也是表示结尾到“域尾”。
+
 # WC命令
 利用wc指令我们可以计算文件的Byte数、字数、或是列数，若不指定文件名称、或是所给予的文件名为"-"，则wc指令会从标准输入设备读取数据。
 
