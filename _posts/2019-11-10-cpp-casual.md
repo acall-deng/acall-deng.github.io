@@ -6,6 +6,7 @@ tags:  C++
 author: DengYuting
 ---
 
+- 20191212第二次更新
 
 ## glibc qsort 库函数多线程环境下的 core dump 问题
 
@@ -110,3 +111,41 @@ int main()
 }
 ```
 
+## rand 随机数种子问题
+
+在同一个程序中多次调用rand()会产生不同的随机数，但是每次运行程序会发现产生的随机数相同。下面的程序则是这种情况。  
+原因是默认情况下都是从相同的随机数序列中取出数据的，所以每次运行这段程序产生的10个数字都是相同的，实测哪怕是重新编译或者是重新建立一个代码段生成的也是一样的10个数字。当加入随机数种子之后，则每次都会生成一个新的随机数序列。
+
+```c++
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    //srand(time(NULL)); 或者
+    //std::srand(unsigned(std::time(0))); 下节中说明为什么相同
+    for (int i=0; i<10; i++) {
+        int rand_num = rand() % 100;
+        cout << rand_num << endl;
+    }
+}
+```
+
+## C++ __thread 线程局部存储(Thread-Local Storage)  
+
+gnu: https://gcc.gnu.org/onlinedocs/gcc-3.3.1/gcc/Thread-Local.html  
+
+被修饰的变量在每个线程中都会有一个单独的实例，从而线程之间不串扰，std::addressof()可以在线程运行时获取到变量的地址，在线程结束之后失效。
+
+- 需要linker/dynamic linker/system libraries(libc.so & libpthread.so)支持，所以不是任何时候都生效
+- 可单独使用，或者与extern/static连用，连用情况下出现在extern/static的后面  
+- 可作用于全局/文件作用域static/函数作用域static/类内static变量，不能用于局部或非静态数据成员
+- 静态初始化不能引用线程局部变量的地址。
+- 在C++中，如果存在用于线程局部变量的初始化过程，则该初始化过程必须是ANSI / ISO C ++标准5.19.2中定义的常量表达式。
+  
+```c++
+//用法：
+__thread int i;
+extern __thread struct state s;
+static __thread char *p;
+```
