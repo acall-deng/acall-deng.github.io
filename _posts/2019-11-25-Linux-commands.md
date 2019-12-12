@@ -142,6 +142,20 @@ FStart.CStart Modifie,FEnd.CEnd Modifier
 -   x\{m,\} 重复字符x，至少m次，如：/0\{5,\}/匹配至少有5个0的行。
 -   x\{m,n\} 重复字符x，至少m次，不多于n次，如：/0\{5,10\}/匹配5~10个0的行。
 
+# strace 命令  
+用于追踪Linux命令的系统调用过程。当软件在一台机器上正常工作，但在另一台机器上却不能正常工作，同时抛出了有关文件、权限或者不能运行某某命令等模糊的错误信息时，strace 往往能大显身手。不幸的是，它不能诊断高等级的问题，例如数字证书验证错误等。这些问题通常需要组合使用 strace（有时候是 ltrace）和其它高级工具（例如使用 openssl 命令行工具调试数字证书错误）。
+
+## 参数列表  
+
+- -o 将输出保存到文件
+- -s 查看更多参数，某些时候只能看到字符串的32个字节，使用`-s 128`的形式将其扩展
+- -y 追踪文件或套接字，显示出每个文件描述符的具体指向
+- -p 追踪正在运行的进程
+- -f 追踪子进程，但 strace 显示的是单个调用事件流。当追踪多个进程的时候，你将会看到以 `<unfinished ...>`开始的初始调用，接着是一系列针对其它线程的调用，最后才出现以`<... foocall resumed>`结束的初始调用。
+- -ff 将追踪子进程的所有调用分离到不同的文件中
+- -e 进行过滤
+
+
 # ps命令
 # awk命令
 
@@ -189,3 +203,4 @@ int main(int argc, char *argv[])
 3. <a href="https://blog.csdn.net/oDaiLiDong/article/details/50561257">linux下nproc的作用 -CSDN</a>
 4. <a href="https://blog.csdn.net/Linux_ever/article/details/50295105">多进程编程函数posix_spawn实例 -CSDN</a>
 5. <a href="https://man.linuxde.net/sort">sort命令 -k参数高级用法的出处</a>
+6. <a href="https://mp.weixin.qq.com/s/Nzm7Ayw_vd5hbfBXFpDCYQ"> 在软件部署中使用 strace 进行调试 | Linux 中国 </a>
