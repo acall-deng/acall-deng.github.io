@@ -1,0 +1,107 @@
+---
+type: article
+title:  "Python 邮件发送总结"
+categories: Python
+tags: Python
+author: DengYuting
+---
+
+使用Python发送电子邮件
+<!--more-->
+
+# 综述
+
+- 邮件正文使用`email.mime`包中的各种类来创建，01节中介绍
+- 邮件发送使用`smptplib`包中的sendmail函数
+
+
+
+# 00. 邮件内容发送Demo
+
+常规情况下会涉及到的邮件发送情况：
+- 普通纯文本邮件
+- 带附件的邮件
+- 带图片的邮件
+- 使用第三方邮件供应商发送
+
+```Python
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
+from email.header import Header
+
+default_mail = '*****默认邮箱账户，sendmail中配置的****'
+
+def send_internal_email(context, subject, sender=default_mail, receivers=default_mail):
+    mail_msg = context
+    message = MIMEText(mail_msg, 'plain', 'utf-8')
+    message['From'] = sender
+    message['To'] =  receivers
+    message['Subject'] = Header(subject, 'utf-8')
+    
+    try:
+        smtpObj = smtplib.SMTP('localhost')
+        smtpObj.sendmail(sender, receivers, message.as_string())
+        print("邮件发送成功")
+    except smtplib.SMTPException:
+        print("Error: 无法发送邮件")
+        
+
+def test_send_mail_with_attachment(context, subject, sender=default_mail, receivers=default_mail, **args):
+    message = MIMEMultipart("mixed")
+    
+    # 正文部分
+    message['From'] = sender
+    message['To']  = receivers
+    message['subject'] = subject
+    context = """
+    <p> 图片 </p>
+    <p><img src="cid:pic1"></p>
+    """
+    message.attach(MIMEText(context, "html", "utf-8"))
+    
+    # 附件
+    attach1 = MIMEText(open("tower_list", "rb").read(), "base64", "utf-8")
+    attach1['Content-Type'] = 'application/octet-stream'
+    attach1['Content-Disposition'] = 'attachment; filename="tower_list_attach"'
+    message.attach(attach1)
+    
+    # 图片
+    # Content-ID对应正文HTML里的cid
+    image1 = MIMEImage(open("bd_logo1.png", "rb").read())
+    image1.add_header("Content-ID", "pic1")
+    message.attach(image1)
+    
+    try:
+        smtpObj = smtplib.SMTP('localhost')
+        smtpObj.sendmail(sender, receivers, message.as_string())
+        print("邮件发送成功")
+    except smtplib.SMTPException:
+        print("Error: 无法发送邮件")
+
+def test_send_mail_other_supplier(context, subject, sender=default_mail, receivers=default_mail, **args):
+        
+    # 设置用户名和密码
+    sender    = "530692380@qq.com"
+    password  = "****************" # QQ邮箱现在会提供一个单独的密码，与QQ密码不同
+    receivers = "530692380@qq.com"
+    
+    # 连接第三方服务
+    try:
+        message = MIMEText(context, "plain", "utf-8")
+        message['From'] = sender
+        message['To']  = receivers
+        message['subject'] = subject
+        
+        server=smtplib.SMTP_SSL("smtp.qq.com", 465)              # 发件人邮箱中的SMTP服务器，端口是465，使用SSL加密
+        server.login(sender, password)                           # 括号中对应的是发件人邮箱账号、邮箱密码
+        server.sendmail(sender, receivers, message.as_string())  # 括号中对应的是发件人邮箱账号、收件人邮箱账
+        server.quit()
+        print("邮件发送成功")
+    except Exception:
+        print("邮件发送失败，原因:" + str(Exception))
+
+test_send_mail_with_attachment("", "带附件的邮件")
+test_send_mail_other_supplier("Hello", "Hello")
+```
