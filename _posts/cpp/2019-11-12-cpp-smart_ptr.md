@@ -19,9 +19,7 @@ author: DengYuting
 2. weak_ptr 弱指针，由强指针管理，本身不拥有对象，作用为避免出现指针回路造成的内存泄露（后面讲）
 3. unique_ptr 独占指针，一个对象只能被一个unique_ptr拥有，能够转移所有权，超出作用域后释放，但是可以作为return value传递回调用的函数  
 
-
-
-
+<!--more-->
 
 # 使用时注意
 智能指针不是C++内置的，需要遵循一些原则来保证不会出现错误。  
@@ -34,7 +32,7 @@ author: DengYuting
 同一个对象可被多个shared_ptr指针指向。  
 创建的时候包含一个manager object（管理单元）用来计算指向这个对象的指针个数，同时包含shared count（指向该元素的shared_ptr的个数）和 weak count（指向该元素的weak ptr的个数）  
 
-![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/img/2019-11-12-cpp-shared_ptr_1.png)
+![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/_img/2019-11-12-cpp-smart_ptr/2019-11-12-cpp-shared_ptr_1.png)
 
 ## 基本概述  
 每个shared_ptr在创建的时候会产生一个manager object（管理单元），用来处理引用计数的信息，当shared count为0时对象会被销毁但是管理单元保留，当shared count和weak count同时为0时管理对象也会被销毁
@@ -101,11 +99,11 @@ shared_ptr<Thing> p (make_shared<Thing>(42, "I'm a Thing!"));  // 带参数的
 
 - shared_ptr<Thing> p(new Thing); // 申请了两次内存    
   
-![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/img/2019-11-12-cpp-shared_ptr_2.png)   
+![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/_img/2019-11-12-cpp-smart_ptr/2019-11-12-cpp-shared_ptr_2.png)   
 
 - shared_ptr<Thing> p(make_shared<Thing>());  // 只申请一次内存    
 
-![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/img/2019-11-12-cpp-shared_ptr_3.png)    
+![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/_img/2019-11-12-cpp-smart_ptr/2019-11-12-cpp-shared_ptr_3.png)    
 
 
 ## 替代get方法进行类型转换
@@ -197,7 +195,7 @@ void transmogrify(shared_ptr<Thing> ptr)
 
 其中存在的问题是，当调用foo函数时，语句shared_ptr<Thing> sp_for_this(this); 创建了一个新的shared_ptr指向this的类，从而在此段代码中，main函数中的t1和foo函数中的sp_for_this都是指向了同一个Thing对象但是却有两个manager object，从而在析构的时候会出现二次delete导致内存移除，正确的想法是下面这张图，通过使用一个weak_ptr指向不增加shared count.
   
-![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/img/2019-11-12-cpp-weak_ptr_1.png)  
+![](https://raw.githubusercontent.com/acall-deng/acall-deng.github.io/master/_posts/_img/2019-11-12-cpp-smart_ptr/2019-11-12-cpp-weak_ptr_1.png)  
 
 修改后的代码如下所示，在需要使用this指针来创建新ptr的情况下需要继承enable_shared_from_this<Thing>类，从而在函数中使用shared_from_this()来创建一个weak_ptr，进一步获取到其所指的对象。  
 
