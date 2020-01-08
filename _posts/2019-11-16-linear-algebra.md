@@ -2,7 +2,7 @@
 type: article
 title:  "线性代数的本质-小结"
 categories: 数学基础
-tags: 数学基础 线性代数
+tags: 数学基础
 author: DengYuting
 ---
 * content
